@@ -35,9 +35,9 @@ bindsym $mod+ctrl+d exec --no-startup-id dmenu_recency
 # launch categorized menu
 bindsym $mod+z exec --no-startup-id morc_menu
 
-################################################################################################
-## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
-################################################################################################
+#############################################################################################
+## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later!
+#############################################################################################
 
 #exec --no-startup-id volumeicon
 #bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
@@ -45,22 +45,21 @@ exec --no-startup-id start-pulseaudio-x11
 exec --no-startup-id pa-applet
 bindsym $mod+Ctrl+m exec pavucontrol
 
-################################################################################################
-
-# Screen brightness controls
-# bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
-# bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
-
-# Autostart Settings
-exec ~/.screenlayout/dads-3disp.sh
-exec Silas_KeyboardMapping.sh
-exec Silas_KeyboardSpeed.sh
+#############################################################################################
+## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later!
+#############################################################################################
 
 # Autostart Applications
 exec --no-startup-id blueman-manager
 
+# Custom Keybindings: Init Settings
+bindsym $mod+q exec ~/Scripts/startup/InitSettings.sh
+
+# Custom Keybindings: Display Configs
+bindsym $mod+Shift+z exec ~/.screenlayout/mobile.sh
+bindsym $mod+Shift+x exec ~/.screenlayout/dads-2USBCHub.sh
+
 # Custom Keybindings: Applications
-bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
 bindsym $mod+a exec --no-startup-id terminal
 bindsym $mod+s exec --no-startup-id chromium
 bindsym $mod+d exec --no-startup-id okular
@@ -68,13 +67,7 @@ bindsym $mod+f exec --no-startup-id blueman-manager
 
 bindsym $mod+Shift+s exec --no-startup-id chromium --new-window  https://music.youtube.com/
 
-# Custom Keybindings: Display
-bindsym $mod+Ctrl+z exec ~/.screenlayout/dads-3disp.sh
-bindsym $mod+Ctrl+x exec ~/.screenlayout/mobile.sh
-
-# Custom Keybindings: KeyboardSettings
-bindsym $mod+Ctrl+q exec Silas_KeyboardSpeed.sh; exec Silas_KeyboardMapping.sh
-
+#############################################################################################
 # Default Kebindings
 bindsym $mod+F3 exec pcmanfm
 # bindsym $mod+F3 exec ranger
