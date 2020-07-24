@@ -49,22 +49,31 @@ bindsym $mod+Ctrl+m exec pavucontrol
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later!
 #############################################################################################
 
-# Autostart Applications
+# Autostart Applications & Settings
 exec --no-startup-id blueman-manager
+exec ~/.screenlayout/mobile.sh
 
 # Custom Keybindings: Init Settings
-bindsym $mod+q exec ~/Scripts/startup/InitSettings.sh
+bindsym $mod+q exec ~/Scripts/SettingsScripts/InitSettings.sh; exec notify-send 'Updated Settings'
 
-# Custom Keybindings: Display Configs
-bindsym $mod+Shift+z exec ~/.screenlayout/mobile.sh
-bindsym $mod+Shift+x exec ~/.screenlayout/dads-2USBCHub.sh
+# Custom Keybindings: Display Configis
+bindsym $mod+Shift+z mode "display_config"
+mode "display_config" {
+	# Keybindings for display configs
+	bindsym a exec ~/.screenlayout/mobile.sh
+	bindsym s exec ~/.screenlayout/dads-2USBCHub.sh
+	bindsym d exec ~/.screenlayout/moms-1HDMIwide.sh
+	
+	# exit system mode: "Enter" or "Escape"
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
 
 # Custom Keybindings: Applications
 bindsym $mod+a exec --no-startup-id terminal
 bindsym $mod+s exec --no-startup-id chromium
 bindsym $mod+d exec --no-startup-id okular
 bindsym $mod+f exec --no-startup-id blueman-manager
-
 bindsym $mod+Shift+s exec --no-startup-id chromium --new-window  https://music.youtube.com/
 
 #############################################################################################
@@ -235,7 +244,7 @@ for_window [class="Xfburn"] floating enable
 for_window [urgent=latest] focus
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+bindsym $mod+Shift+c reload; exec notify-send "i3-config Reloaded"
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
