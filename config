@@ -71,6 +71,7 @@ mode "display_config" {
 # Custom Keybindings: Applications
 bindsym $mod+a exec --no-startup-id terminal
 bindsym $mod+s exec --no-startup-id chromium
+bindsym $mod+Shift+w exec --no-startup-id chromium --new-window "https://canvas.oregonstate.edu/"
 bindsym $mod+d exec --no-startup-id okular
 bindsym $mod+f exec --no-startup-id blueman-manager
 bindsym $mod+Shift+a exec --no-startup-id code
