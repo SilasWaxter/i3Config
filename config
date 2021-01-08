@@ -3,6 +3,7 @@
 #   Desc:   i3wm personal config
 #   Author: Silas Waxter
 #   Sections:
+#       -README
 #       -i3 Meta
 #       -i3 System Controls
 #       -i3 Properties for Applications
@@ -10,6 +11,14 @@
 #       -Window/Workspace Controls
 #       -Styling Settings
 ####################################################################################
+
+####################################################################################
+# README
+####################################################################################
+# Be aware of the way you comment.  comments at the ends of lines are stil parsed.
+#       For example, "bindsym $mod+f toggle fullscreen  # sets window fullscreen"
+#                                                       ------------------------
+#       will throw an error; i3wm recognizes the "fullscreen" from the comment.
 
 ####################################################################################
 # i3 Meta
@@ -27,8 +36,10 @@ bindsym $mod+Shift+q kill
 floating_modifier $mod
 
 # Start Menus
-bindsym $mod+ctrl+d exec --no-startup-id dmenu_recency  # search menu
-bindsym $mod+z exec --no-startup-id morc_menu   # category menu
+    # search menu
+    bindsym $mod+ctrl+d exec --no-startup-id dmenu_recency
+    # category menu
+    bindsym $mod+z exec --no-startup-id morc_menu
 
 ####################################################################################
 # i3 System Controls
@@ -60,14 +71,15 @@ exec --no-startup-id clipit
 exec --no-startup-id xautolock -time 20 -locker blurlock
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
-    # Custom:
+    # custom
     exec --no-startup-id blueman-manager     
     exec ~/.screenlayout/mobile.sh
 
 ####################################################################################
 # i3 Properties for Applications
 ####################################################################################
-for_window [urgent=latest] focus    # switch to urgent windows
+# switch to urgent windows
+for_window [urgent=latest] focus
 
 # Default Workspaces
 #assign [class="URxvt"] $ws1
@@ -138,16 +150,25 @@ bindsym $mod+Shift+p exec --no-startup-id pavucontrol
 # Window/Workspace Controls
 ####################################################################################
 # toggle alternate views 
-bindsym $mod+Shift+f fullscreen toggle      # fullscreen
-bindsym $mod+Shift+space floating toggle    # floating
+    # fullscreen
+    bindsym $mod+Shift+f fullscreen toggle
+    # floating
+    bindsym $mod+Shift+space floating toggle
 
 # floating settings toggles
-bindsym $mod+space focus mode_toggle    # focus (tiled & floating windows)
-bindsym $mod+Shift+t sticky toggle      # sticky (stick to screen when changing workspace)
+    # focus (tiled & floating windows)
+    bindsym $mod+space focus mode_toggle
+    # sticky (stick to screen when changing workspace)
+    bindsym $mod+Shift+t sticky toggle
 
 # scratchpad
-bindsym $mod+Shift+minus move scratchpad    # move window to scratchpad
-bindsym $mod+minus scratchpad show      # show next scratchpad window or hide scratchpad
+    # move window to scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+    # show next scratchpad window or hide scratchpad
+    bindsym $mod+minus scratchpad show
+
+# toggle tilling orientation
+bindsym $mod+Tab split toggle; exec notify-send -t 1000 'toggled tiling'
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+o layout stacking
@@ -166,12 +187,9 @@ bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-# Move workspace to Different Display
-bindsym $mod+Shift+Ctrl+l move workspace to output right  # CURRENTLY BROKEN?
+# move workspace to another display
+bindsym $mod+Shift+Ctrl+l move workspace to output right
 bindsym $mod+Shift+Ctrl+h move workspace to output left
-
-# toggle tilling orientation
-bindsym $mod+Tab split toggle; exec notify-send -t 1000 'toggled tiling'
 
 # Workspace names
 set $ws1 1
@@ -230,13 +248,14 @@ mode "resize" {
 # Styling Settings (note: colors & fonts at bot.)
 ####################################################################################
 # Borders
-default_border pixel 1
-default_floating_border normal
-smart_borders on # draw borders on conatainer only when NOT only container on workspace
+    default_border pixel 1
+    default_floating_border normal
+    # draw borders on conatainer only when NOT only container on workspace
+    smart_borders on 
 
 # Font for window titles. 
     # (Will also used by bar unless a different font is used in the bar {} block.)
-font xft:URWGothic-Book 12
+    font xft:URWGothic-Book 12
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
