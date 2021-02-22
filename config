@@ -74,6 +74,7 @@ exec_always --no-startup-id fix_xcursor
     # custom
     exec --no-startup-id blueman-manager     
     exec ~/.screenlayout/mobile.sh
+    exec ~/Scripts/SettingsScripts/InitSettings.sh
 
 ####################################################################################
 # i3 Properties for Applications
@@ -119,21 +120,24 @@ for_window [class="Xfburn"] floating enable
 # Custom Keybindings
 ####################################################################################
 # Configure Displays
-bindsym $mod+Shift+z mode "display"
-mode "display" {
-        # Launch arandr display manager
-        bindsym a exec --no-startup-id arandr
+set $display_scripts_dir ~/.screenlayout
+set $display_settings (a)randr, (b)uiltIn, (t)ablet, (w)ide, (o)su_workspace
+bindsym $mod+Shift+z mode "$display_settings"
+mode "$display_settings" {
+    # Launch arandr display manager
+    bindsym a exec --no-startup-id arandr, mode "default"
 
-	# Keybindings for display configs
-	bindsym s exec ~/.screenlayout/USBCHub_dads.sh
-	bindsym d exec ~/.screenlayout/LaptopRight_UltraWide-HDMI.sh
+    # Keybindings for display configs
+    bindsym b exec $display_scripts_dir/builtIn.sh, mode "default"
+    bindsym w exec $display_scripts_dir/widescreen.sh, mode "default"
+    bindsym t exec $display_scripts_dir/tabletXppen.sh, mode "default"
 	
-	# exit system mode: "Enter" or "Escape"
-	bindsym Return mode "default"
-	bindsym Escape mode "default"
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 
-# Script: Init Settings (exec keyboard, wallpaper, ... scripts)
+# Shript: Init Settings (exec keyboard, wallpaper, ... scripts)
 bindsym $mod+q exec ~/Scripts/SettingsScripts/InitSettings.sh; exec notify-send -t 1000 'Updated Settings'
 
 # Applications
@@ -143,7 +147,8 @@ bindsym $mod+Shift+w exec --no-startup-id chromium --new-window "https://canvas.
 bindsym $mod+d exec --no-startup-id okular
 bindsym $mod+f exec --no-startup-id blueman-manager
 bindsym $mod+Shift+a exec --no-startup-id code
-bindsym $mod+Shift+s exec --no-startup-id spotify
+bindsym $mod+Shift+s exec --no-startup-id spotify; exec notify-send -t 2000 "Opening Spotify"
+bindsym $mod+Shift+d exec --no-startup-id xournalpp
 bindsym $mod+Shift+p exec --no-startup-id pavucontrol
 
 ####################################################################################
@@ -188,8 +193,10 @@ bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
 # move workspace to another display
-bindsym $mod+Shift+Ctrl+l move workspace to output right
 bindsym $mod+Shift+Ctrl+h move workspace to output left
+bindsym $mod+Shift+Ctrl+j move workspace to output down
+bindsym $mod+Shift+Ctrl+k move workspace to output up
+bindsym $mod+Shift+Ctrl+l move workspace to output right
 
 # Workspace names
 set $ws1 1
