@@ -19,6 +19,12 @@
 #       For example, "bindsym $mod+f toggle fullscreen  # sets window fullscreen"
 #                                                       ------------------------
 #       will throw an error; i3wm recognizes the "fullscreen" from the comment.
+####################################################################################
+# i3config Variables
+####################################################################################
+set $runSettingsScripts exec ~/Scripts/SettingsScripts/runAllSettingsScripts.sh
+
+set $updateWallpaper exec ~/Scripts/SettingsScripts/Wallpaper/reloadWallpaper.sh
 
 ####################################################################################
 # i3 Meta
@@ -73,8 +79,8 @@ exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
     # custom
     exec --no-startup-id blueman-manager     
-    exec ~/.screenlayout/mobile.sh
-    exec ~/Scripts/SettingsScripts/InitSettings.sh
+    exec ~/.screenlayout/mobile.sh; $updateWallpaper
+    $runSettingsScripts
 
 ####################################################################################
 # i3 Properties for Applications
@@ -125,12 +131,12 @@ set $display_settings (a)randr, (b)uiltIn, (t)ablet, (w)ide, (o)su_workspace
 bindsym $mod+Shift+z mode "$display_settings"
 mode "$display_settings" {
     # Launch arandr display manager
-    bindsym a exec --no-startup-id arandr, mode "default"
+    bindsym a exec --no-startup-id arandr, mode "default"; $updateWallpaper 
 
     # Keybindings for display configs
-    bindsym b exec $display_scripts_dir/builtIn.sh, mode "default"
-    bindsym w exec $display_scripts_dir/widescreen.sh, mode "default"
-    bindsym t exec $display_scripts_dir/tabletXppen.sh, mode "default"
+    bindsym b exec $display_scripts_dir/builtIn.sh, mode "default"; $updateWallpaper
+    bindsym w exec $display_scripts_dir/widescreen.sh, mode "default"; $updateWallpaper
+    bindsym t exec $display_scripts_dir/tabletXppen.sh, mode "default"; $updateWallpaper
 	
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
@@ -138,7 +144,7 @@ mode "$display_settings" {
 }
 
 # Shript: Init Settings (exec keyboard, wallpaper, ... scripts)
-bindsym $mod+q exec ~/Scripts/SettingsScripts/InitSettings.sh; exec notify-send -t 1000 'Updated Settings'
+bindsym $mod+q $runSettingsScripts
 
 # Applications
 bindsym $mod+a exec --no-startup-id terminal
@@ -191,6 +197,9 @@ bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
+
+# move workspace to another workspace ("rename" workspace)
+bindsym $mod+Shift+Ctrl+1 move [workspace=$ws1] to workspace $ws1
 
 # move workspace to another display
 bindsym $mod+Shift+Ctrl+h move workspace to output left
