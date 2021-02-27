@@ -51,7 +51,8 @@ floating_modifier $mod
 # i3 System Controls
 ####################################################################################
 #System Operation Menu
-set $system_operation (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+set $system_operation (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate,            \
+                      (r)eboot, (Shift+s)hutdown
 bindsym $mod+Delete mode "$system_operation"
 mode "$system_operation" {
     bindsym l exec --no-startup-id i3exit lock, mode "default"
@@ -143,18 +144,46 @@ mode "$display_settings" {
     bindsym Escape mode "default"
 }
 
-# Shript: Init Settings (exec keyboard, wallpaper, ... scripts)
+# Script: Init Settings (exec keyboard, wallpaper, ... scripts)
 bindsym $mod+q $runSettingsScripts
 
 # Applications
 bindsym $mod+a exec --no-startup-id terminal
-bindsym $mod+s exec --no-startup-id chromium
-bindsym $mod+Shift+w exec --no-startup-id chromium --new-window "https://canvas.oregonstate.edu/"
-bindsym $mod+d exec --no-startup-id okular
-bindsym $mod+f exec --no-startup-id blueman-manager
 bindsym $mod+Shift+a exec --no-startup-id code
-bindsym $mod+Shift+s exec --no-startup-id spotify; exec notify-send -t 2000 "Opening Spotify"
+
+# chromium
+bindsym $mod+s exec --no-startup-id chromium
+
+set $chrome_applications (o)su_canvas, g(m)ail
+bindsym $mod+Shift+s mode "$chrome_applications"
+mode "$chrome_applications" {
+    bindsym o exec --no-startup-id chromium                                             \
+            --new-window "https://canvas.oregonstate.edu/", mode "default"
+    bindsym m exec --no-startup-id chromium                                             \
+            --new-window "https://mail.google.com/", mode "default"
+	
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+d exec --no-startup-id okular
 bindsym $mod+Shift+d exec --no-startup-id xournalpp
+
+set $music_applications (s)potify, (y)outube
+bindsym $mod+m mode "$music_applications"
+mode "$music_applications" {
+    bindsym s exec --no-startup-id spotify, mode "default";                             \
+            exec notify-send -t 2000 "Opening Spotify"
+    bindsym y exec --no-startup-id chromium --new-window "youtube.com", mode "default"
+	
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+f exec --no-startup-id blueman-manager
+
 bindsym $mod+Shift+p exec --no-startup-id pavucontrol
 
 ####################################################################################
@@ -281,7 +310,8 @@ mode "resize" {
     # (Will also used by bar unless a different font is used in the bar {} block.)
     font xft:URWGothic-Book 12
 
-# Start i3bar to display a workspace bar (plus the system information i3status if available)
+# Start i3bar to display a workspace bar 
+# (plus the system information i3status if available)
 bar {
 	i3bar_command i3bar
 	status_command i3status
