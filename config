@@ -22,9 +22,7 @@
 ####################################################################################
 # i3config Variables
 ####################################################################################
-set $runSettingsScripts exec ~/Scripts/SettingsScripts/runAllSettingsScripts.sh
-
-set $updateWallpaper exec ~/Scripts/SettingsScripts/Wallpaper/reloadWallpaper.sh
+set $run_all_settings_scripts exec ~/Scripts/SettingsScripts/all_settings_scripts.sh
 
 ####################################################################################
 # i3 Meta
@@ -80,8 +78,8 @@ exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
     # custom
     exec --no-startup-id blueman-manager     
-    exec ~/.screenlayout/mobile.sh; $updateWallpaper
-    $runSettingsScripts
+    exec ~/.screenlayout/mobile.sh;
+    $run_all_settings_scripts
 
 ####################################################################################
 # i3 Properties for Applications
@@ -128,16 +126,17 @@ for_window [class="Xfburn"] floating enable
 ####################################################################################
 # Configure Displays
 set $display_scripts_dir ~/.screenlayout
-set $display_settings (a)randr, (b)uiltIn, (t)ablet, (w)ide, (o)su_workspace
+
+set $display_settings (a)randr, (b)uiltIn, (t)ablet, (w)ide
 bindsym $mod+Shift+z mode "$display_settings"
 mode "$display_settings" {
     # Launch arandr display manager
-    bindsym a exec --no-startup-id arandr, mode "default"; $updateWallpaper 
+    bindsym a exec --no-startup-id arandr, mode "default"
 
     # Keybindings for display configs
-    bindsym b exec $display_scripts_dir/builtIn.sh, mode "default"; $updateWallpaper
-    bindsym w exec $display_scripts_dir/widescreen.sh, mode "default"; $updateWallpaper
-    bindsym t exec $display_scripts_dir/tabletXppen.sh, mode "default"; $updateWallpaper
+    bindsym b exec $display_scripts_dir/built_in.sh, mode "default"
+    bindsym t exec $display_scripts_dir/tablet.sh, mode "default"
+    bindsym w exec $display_scripts_dir/widescreen.sh, mode "default"
 	
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
@@ -145,7 +144,7 @@ mode "$display_settings" {
 }
 
 # Script: Init Settings (exec keyboard, wallpaper, ... scripts)
-bindsym $mod+q $runSettingsScripts
+bindsym $mod+q $run_all_settings_scripts
 
 # Applications
 bindsym $mod+a exec --no-startup-id terminal
