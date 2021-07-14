@@ -19,19 +19,38 @@
 #       For example, "bindsym $mod+f toggle fullscreen  # sets window fullscreen"
 #                                                       ------------------------
 #       will throw an error; i3wm recognizes the "fullscreen" from the comment.
+#
+# It seems as though variables do not act as "simple" or "recursive" variables from
+# make, rather each variable "set" statement is evaluated independantly.
+# 	EXAMPLE:
+# 		INPUT
+# 		------
+# 		set $asdf /home/silaswaxter
+# 		set $testfile $asdf/test.txt
+#
+# 		OUTPUT
+# 		-----
+# 		$asdf = "/home/silaswaxter"
+# 		$testfile = "test.txt"
 ####################################################################################
-# i3config Variables
-####################################################################################
-set $run_all_settings_scripts exec ~/Scripts/SettingsScripts/all_settings_scripts.sh
+
+
+
+
 
 ####################################################################################
-# i3 Meta
+# i3 Variables
 ####################################################################################
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
 set $mod Mod4
 
+set $config_scripts_dir ~/.my_config_scripts
+
+####################################################################################
+# i3 Meta
+####################################################################################
 # reload the i3 config file
-bindsym $mod+Shift+c reload; exec notify-send "i3-config Reloaded"
+bindsym $mod+Shift+c reload; exec notify-send -t 1000 "i3-config Reloaded"
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -49,8 +68,7 @@ floating_modifier $mod
 # i3 System Controls
 ####################################################################################
 #System Operation Menu
-set $system_operation (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate,            \
-                      (r)eboot, (Shift+s)hutdown
+set $system_operation (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 bindsym $mod+Delete mode "$system_operation"
 mode "$system_operation" {
     bindsym l exec --no-startup-id i3exit lock, mode "default"
@@ -61,7 +79,7 @@ mode "$system_operation" {
     bindsym r exec --no-startup-id i3exit reboot, mode "default"
     bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
 
-    # exit system mode: "Enter" or "Escape"
+    # exit system mode: "Enter" or "Escape
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
@@ -79,7 +97,7 @@ exec_always --no-startup-id fix_xcursor
     # custom
     exec --no-startup-id blueman-manager     
     exec ~/.screenlayout/mobile.sh;
-    $run_all_settings_scripts
+    exec $config_scripts_dir/all_settings_scripts.sh
 
 ####################################################################################
 # i3 Properties for Applications
@@ -125,18 +143,15 @@ for_window [class="Xfburn"] floating enable
 # Custom Keybindings
 ####################################################################################
 # Configure Displays
-set $display_scripts_dir ~/.screenlayout
-
-set $display_settings (a)randr, (b)uiltIn, (t)ablet, (w)ide
+set $display_settings (a)randr, (d)esktop, (m)obile
 bindsym $mod+Shift+z mode "$display_settings"
 mode "$display_settings" {
     # Launch arandr display manager
     bindsym a exec --no-startup-id arandr, mode "default"
 
     # Keybindings for display configs
-    bindsym b exec $display_scripts_dir/built_in.sh, mode "default"
-    bindsym t exec $display_scripts_dir/tablet.sh, mode "default"
-    bindsym w exec $display_scripts_dir/widescreen.sh, mode "default"
+    bindsym d exec $config_scripts_dir/Display/desktop.sh, mode "default"
+    bindsym m exec $config_scripts_dir/Display/mobile.sh, mode "default"
 	
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
@@ -144,27 +159,13 @@ mode "$display_settings" {
 }
 
 # Script: Init Settings (exec keyboard, wallpaper, ... scripts)
-bindsym $mod+q $run_all_settings_scripts
+bindsym $mod+q exec $config_scripts_dir/all_settings_scripts.sh; exec notify-send $run_all_settings_scripts
 
 # Applications
 bindsym $mod+a exec --no-startup-id terminal
 bindsym $mod+Shift+a exec --no-startup-id code
+bindsym $mod+s exec --no-startup-id google-chrome-stable
 
-# chromium
-bindsym $mod+s exec --no-startup-id chromium
-
-set $chrome_applications (o)su_canvas, g(m)ail
-bindsym $mod+Shift+s mode "$chrome_applications"
-mode "$chrome_applications" {
-    bindsym o exec --no-startup-id chromium                                             \
-            --new-window "https://canvas.oregonstate.edu/", mode "default"
-    bindsym m exec --no-startup-id chromium                                             \
-            --new-window "https://mail.google.com/", mode "default"
-	
-    # exit system mode: "Enter" or "Escape"
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
 
 bindsym $mod+d exec --no-startup-id okular
 bindsym $mod+Shift+d exec --no-startup-id xournalpp
